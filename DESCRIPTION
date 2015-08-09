@@ -2,7 +2,8 @@ Package: GenderGuesser
 Title: Guess the gender of a name (one line, title case)
 Version: 0.0.0.9000
 Authors@R: person("Eamon", "Caddigan", email = "eamon.caddigan@gmail.com", role = c("aut", "cre"))
-Description: Currently, this package uses the genderize.io API to guess the gender of one or more names.
+Description: Currently uses the genderize.io API to guess the gender of one or more names.
 Depends: R (>= 3.2.1)
-License: GNU General Public License v2.0
+Imports: jsonlite, httr
+License: GPL-3
 LazyData: true
