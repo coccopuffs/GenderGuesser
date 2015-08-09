@@ -1,5 +1,5 @@
 Package: GenderGuesser
-Title: Guess the gender of a name (one line, title case)
+Title: Guess the Gender of a Name
 Version: 0.0.0.9000
 Authors@R: person("Eamon", "Caddigan", email = "eamon.caddigan@gmail.com", role = c("aut", "cre"))
 Description: Currently uses the genderize.io API to guess the gender of one or more names.
