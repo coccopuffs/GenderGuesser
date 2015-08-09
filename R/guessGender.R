@@ -19,7 +19,7 @@ checkLanguageCountryCodes <- function(countryCode, languageCode) {
 #' is requested, otherwise returns the element itself.
 #' @keywords internal
 getListElement <- function(listName, elementName) {
-  if (match(elementName, names(listName), nomatch = 0) > 0) {
+  if (!is.null(listName[[elementName]])) {
     listElement <- listName[[elementName]]
   } else {
     listElement <- NA
