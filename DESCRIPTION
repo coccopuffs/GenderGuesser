@@ -4,6 +4,6 @@ Version: 0.0.0.9000
 Authors@R: person("Eamon", "Caddigan", email = "eamon.caddigan@gmail.com", role = c("aut", "cre"))
 Description: Currently uses the genderize.io API to guess the gender of one or more names.
 Depends: R (>= 3.2.1)
-Imports: jsonlite, httr
+Imports: jsonlite, httr (>= 1.0.0)
 License: GPL-3
 LazyData: true
