@@ -1,5 +1,6 @@
-# Contains the function lookupGenderForNames(), which returns a data.frame of
-# gender info from genderize.io given a character vector of first names.
+# Code for using the genderize.io API to guess names' genders.
+
+# Helper functions --------------------------------------------------------
 
 #'  Check country and language code.
 #'
@@ -25,6 +26,9 @@ getListElement <- function(listName, elementName) {
   }
   return(listElement)
 }
+
+
+# API functions -----------------------------------------------------------
 
 #' Look up a vector of names.
 #'
