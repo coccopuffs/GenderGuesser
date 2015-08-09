@@ -18,7 +18,7 @@ checkLanguageCountryCodes <- function(countryCode, languageCode) {
 #' is requested, otherwise returns the element itself.
 #' @keywords internal
 getListElement <- function(listName, elementName) {
-  if (match(elementName, listName, nomatch = 0) > 0) {
+  if (match(elementName, names(listName), nomatch = 0) > 0) {
     listElement <- listName[[elementName]]
   } else {
     listElement <- NA
@@ -58,19 +58,21 @@ lookupNameVector <- function(nameVector, countryCode = NA, languageCode = NA, ap
   }
 
   # Run it!
-  queryResult <- httr::GET("https://api.genderize.io", query = query)
+  # XXX - setting ssl_verifypeer to FALSE is probably really bad. Whatev.
+  queryResult <- httr::GET("https://api.genderize.io", query = query,
+                           httr::config(ssl_verifypeer = FALSE))
   if (httr::status_code(queryResult) == 200) {
-    responseDF <- jsonlite::fromJSON(httr::content(queryResult, as="text"))
+    responseFromJSON <- jsonlite::fromJSON(httr::content(queryResult, as="text"))
     # Make sure this is a data.frame with the correct columns. I bet fromJSON
     # can do this for me but I don't know how. This code works whether fromJSON
     # returned a list (the response to one name) or a data.frame (the response
     # to several).
-    responseDF <- data.frame(name = getListElement(responseDF, "name"),
-                             gender = getListElement(responseDF, "gender"),
-                             country_id = getListElement(responseDF, "country_id"),
-                             language_id = getListElement(responseDF, "language_id"),
-                             probability = getListElement(responseDF, "probability"),
-                             count = getListElement(responseDF, "count"),
+    responseDF <- data.frame(name = getListElement(responseFromJSON, "name"),
+                             gender = getListElement(responseFromJSON, "gender"),
+                             country_id = getListElement(responseFromJSON, "country_id"),
+                             language_id = getListElement(responseFromJSON, "language_id"),
+                             probability = getListElement(responseFromJSON, "probability"),
+                             count = getListElement(responseFromJSON, "count"),
                              stringsAsFactors = FALSE)
 
   } else {
