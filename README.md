@@ -8,20 +8,20 @@ To use it, call `guessGender` with a character vector of (first) names. You can 
 
 Use the devtools package to install GenderGuesser
 
-```
-> library("devtools")
-> install_github("eamoncaddigan/GenderGuesser")
+```r
+library("devtools")
+install_github("eamoncaddigan/GenderGuesser")
 ```
 
 Calling `guessGender` with one or more names returns a data.frame.
 
 ```
-> library("GenderGuesser")
-> guessGender(c("Liam", "Natalie", "Eamon"))
-     name gender country_id language_id probability count
-1    Liam   male         NA          NA        0.99   623
-2 Natalie female         NA          NA        1.00  2033
-3   Eamon   male         NA          NA        1.00    63
+library("GenderGuesser")
+guessGender(c("Liam", "Natalie", "Eamon"))
+#>     name gender country_id language_id probability count
+#>1    Liam   male         NA          NA        0.99   623
+#>2 Natalie female         NA          NA        1.00  2033
+#>3   Eamon   male         NA          NA        1.00    63
 ```
 
-I have an uncommon name. :)
+"Eamon is an uncommon name, but only boys seem to have it. :)
