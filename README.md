@@ -15,7 +15,7 @@ install_github("eamoncaddigan/GenderGuesser")
 
 Calling `guessGender` with one or more names returns a data.frame.
 
-```
+```r
 library("GenderGuesser")
 guessGender(c("Liam", "Natalie", "Eamon"))
 #>     name gender country_id language_id probability count
