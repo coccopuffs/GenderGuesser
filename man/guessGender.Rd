@@ -21,6 +21,6 @@ This function uses the genderize.io API to supply estimates of the gender one
 or more names.
 }
 \examples{
-guessGender(c("Eamon", "Sean"), countryCode = "US")
+guessGender(c("Natalie", "Liam", "Eamon"), countryCode = "US")
 }
 

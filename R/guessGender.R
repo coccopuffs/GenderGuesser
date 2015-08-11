@@ -2,10 +2,11 @@
 
 # Helper functions --------------------------------------------------------
 
-#'  Check country and language code.
+#' Check country and language code.
 #'
-#'  Makes sure that no more than one of countryCode or languageCode is *not* NA
-#'  (i.e., they can both be NA, or one can be NA).
+#' Makes sure that no more than one of countryCode or languageCode is *not* NA
+#' (i.e., they can both be NA, or one can be NA).
+#' @keywords internal
 checkLanguageCountryCodes <- function(countryCode, languageCode) {
   # TODO: Check code validity
   if (sum(is.na(c(countryCode, languageCode))) < 1) {
@@ -30,17 +31,14 @@ getListElement <- function(listName, elementName) {
 
 # API functions -----------------------------------------------------------
 
-#' Look up a vector of names.
+#' Look up a vector of names on genderize.io.
 #'
 #' This function actually implements the genderize.io API. Can only query 10
 #' names at a time.
-#' @param nameVector A vector containing one or more names to look up.
-#' @param countryCode An optional ISO 3166-1 alpha-2 country code.
-#' @param languageCode An optional ISO 639-1 language code. Only one of
-#'   countryCode or languageCode can be specified.
-#' @param apiKey An optional API key for genderize.io.
+#' @inheritParams guessGender
 #' @keywords internal
-lookupNameVector <- function(nameVector, countryCode = NA, languageCode = NA, apiKey = NA) {
+lookupNameVectorGenderize <- function(nameVector, 
+                                      countryCode = NA, languageCode = NA, apiKey = NA) {
   # Make sure that no more than 10 names were passed
   if (length(nameVector) > 10) {
     stop("This only accepts 10 or fewer names")
@@ -49,16 +47,16 @@ lookupNameVector <- function(nameVector, countryCode = NA, languageCode = NA, ap
 
   # Construct the query
   query <- paste("name[", seq_along(nameVector), "]=", nameVector,
-                 sep="",
-                 collapse="&")
+                 sep = "",
+                 collapse = "&")
   if (!is.na(countryCode)) {
-    query <- paste(query, "&country_id=", countryCode, sep="")
+    query <- paste(query, "&country_id=", countryCode, sep = "")
   }
   if (!is.na(languageCode)) {
-    query <- paste(query, "&language_id=", languageCode, sep="")
+    query <- paste(query, "&language_id=", languageCode, sep = "")
   }
   if (!is.na(apiKey)) {
-    query <- paste(query, "&apikey=", apiKey, sep="")
+    query <- paste(query, "&apikey=", apiKey, sep = "")
   }
 
   # Run it!
@@ -66,7 +64,7 @@ lookupNameVector <- function(nameVector, countryCode = NA, languageCode = NA, ap
   queryResult <- httr::GET("https://api.genderize.io", query = query,
                            httr::config(ssl_verifypeer = FALSE))
   if (httr::status_code(queryResult) == 200) {
-    responseFromJSON <- jsonlite::fromJSON(httr::content(queryResult, as="text"))
+    responseFromJSON <- jsonlite::fromJSON(httr::content(queryResult, as = "text"))
     # Make sure this is a data.frame with the correct columns. I bet fromJSON
     # can do this for me but I don't know how. This code works whether fromJSON
     # returned a list (the response to one name) or a data.frame (the response
@@ -106,8 +104,9 @@ lookupNameVector <- function(nameVector, countryCode = NA, languageCode = NA, ap
 #' @param apiKey An optional API key for genderize.io.
 #' @export
 #' @examples
-#' guessGender(c("Eamon", "Sean"), countryCode = "US")
-guessGender <- function(nameVector, countryCode = NA, languageCode = NA, apiKey = NA) {
+#' guessGender(c("Natalie", "Liam", "Eamon"), countryCode = "US")
+guessGender <- function(nameVector, 
+                        countryCode = NA, languageCode = NA, apiKey = NA) {
   checkLanguageCountryCodes(countryCode, languageCode)
 
   # genderize.io only handles 10 names at a time. Create a list of vectors, each
@@ -122,7 +121,7 @@ guessGender <- function(nameVector, countryCode = NA, languageCode = NA, apiKey 
   # Run the queries
   responseList <- list()
   for (i in seq_along(queryList)) {
-    responseDF <- lookupNameVector(queryList[[i]], countryCode, apiKey)
+    responseDF <- lookupNameVectorGenderize(queryList[[i]], countryCode, apiKey)
     if (is.null(responseDF)) {
       break
     } else {

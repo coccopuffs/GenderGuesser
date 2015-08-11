@@ -7,5 +7,7 @@ Depends: R (>= 3.2.1)
 Imports:
     httr (>= 1.0.0),
     jsonlite
+Suggests:
+    devtools
 License: GPL-3
 LazyData: true

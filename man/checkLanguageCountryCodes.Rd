@@ -8,6 +8,7 @@ checkLanguageCountryCodes(countryCode, languageCode)
 }
 \description{
 Makes sure that no more than one of countryCode or languageCode is *not* NA
- (i.e., they can both be NA, or one can be NA).
+(i.e., they can both be NA, or one can be NA).
 }
+\keyword{internal}
 
