@@ -4,11 +4,12 @@
 \alias{checkLanguageCountryCodes}
 \title{Check country and language code.}
 \usage{
-checkLanguageCountryCodes(countryCode, languageCode)
+checkLanguageCountryCodes(languageCode, countryCode)
 }
 \description{
 Makes sure that no more than one of countryCode or languageCode is *not* NA
-(i.e., they can both be NA, or one can be NA).
+(i.e., they can both be NA, or one can be NA). Also ensures that any code
+specified is recognized by genderize.io.
 }
 \keyword{internal}
 

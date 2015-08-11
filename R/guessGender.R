@@ -3,14 +3,29 @@
 # Helper functions --------------------------------------------------------
 
 #' Check country and language code.
-#'
-#' Makes sure that no more than one of countryCode or languageCode is *not* NA
-#' (i.e., they can both be NA, or one can be NA).
+#' 
+#' Makes sure that no more than one of countryCode or languageCode is *not* NA 
+#' (i.e., they can both be NA, or one can be NA). Also ensures that any code
+#' specified is recognized by genderize.io.
 #' @keywords internal
-checkLanguageCountryCodes <- function(countryCode, languageCode) {
-  # TODO: Check code validity
-  if (sum(is.na(c(countryCode, languageCode))) < 1) {
-    stop("Only one of countryCode or languageCode can be passed")
+checkLanguageCountryCodes <- function(languageCode, countryCode) {
+  checkCodeInVector <- function(code, codeVector) {
+    return(match(tolower(code), tolower(codeVector), nomatch = 0) > 0)
+  }
+  
+  # Very ugly control flow here. 
+  if (!is.na(countryCode)) {
+    if (!checkCodeInVector(countryCode, genderizeCountries)) {
+      stop("Country code not in list")
+    } 
+    if (!is.na(languageCode)) {
+      stop("Only one of countryCode or languageCode can be specified")
+    }
+  }
+  if (!is.na(languageCode)) {
+    if (!checkCodeInVector(languageCode, genderizeLanguages)) {
+      stop("Language code not in list")
+    }
   }
 }
 
@@ -43,7 +58,7 @@ lookupNameVectorGenderize <- function(nameVector,
   if (length(nameVector) > 10) {
     stop("This only accepts 10 or fewer names")
   }
-  checkLanguageCountryCodes(countryCode, languageCode)
+  checkLanguageCountryCodes(languageCode, countryCode)
 
   # Construct the query
   query <- paste("name[", seq_along(nameVector), "]=", nameVector,
@@ -107,7 +122,7 @@ lookupNameVectorGenderize <- function(nameVector,
 #' guessGender(c("Natalie", "Liam", "Eamon"), countryCode = "US")
 guessGender <- function(nameVector, 
                         countryCode = NA, languageCode = NA, apiKey = NA) {
-  checkLanguageCountryCodes(countryCode, languageCode)
+  checkLanguageCountryCodes(languageCode, countryCode)
 
   # genderize.io only handles 10 names at a time. Create a list of vectors, each
   # with no more than 10 names.
@@ -121,7 +136,8 @@ guessGender <- function(nameVector,
   # Run the queries
   responseList <- list()
   for (i in seq_along(queryList)) {
-    responseDF <- lookupNameVectorGenderize(queryList[[i]], countryCode, apiKey)
+    responseDF <- lookupNameVectorGenderize(queryList[[i]], 
+                                            countryCode, languageCode, apiKey)
     if (is.null(responseDF)) {
       break
     } else {
