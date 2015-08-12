@@ -1,0 +1,37 @@
+---
+title: "Using GenderGuesser"
+author: "Eamon Caddigan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+GenderGuesser uses the API at [genderize.io](https://genderize.io) to guess the gender of a name. Right now, GenderGuesser only exports a single function, `guessGender`. Calling this function returns a `data.frame` containing the results from [genderize.io](https://genderize.io).
+
+```{r}
+library("GenderGuesser")
+
+# Call with a single name
+guessGender("Natalie")
+
+# Call with multiple names
+guessGender(c("Liam", "Taidghin", "Eamon", "Sean"))
+```
+
+[genderize.io](https://genderize.io) can refine results based on language or country.
+
+```{r}
+# "Kim" is usually a female name in the US
+guessGender("Kim", countryCode = "US")
+
+# But "Kim" is usually a male name in Denmark (use the ISO 3166-1 alpha-2 country code)
+guessGender("Kim", countryCode = "DK")
+
+# You can use the ISO 639-1 language code instead
+guessGender("Kim", languageCode = "da")
+```
+
+You can purchase an API key from [genderize.io](https://genderize.io) to get around their rate limit (100 names per day). Pass it to the function using the `apiKey` argument.
