@@ -24,4 +24,4 @@ guessGender(c("Liam", "Natalie", "Eamon"))
 #>3   Eamon   male         NA          NA        1.00    63
 ```
 
-"Eamon is an uncommon name, but only boys seem to have it. :)
+"Eamon" is an uncommon name, but only boys seem to have it so far.
