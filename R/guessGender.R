@@ -67,9 +67,11 @@ lookupNameVectorGenderize <- function(nameVector,
   if (!is.na(languageCode)) {
     query <- paste(query, "&language_id=", languageCode, sep = "")
   }
-  
+  print("mahesh")
+
   query <- paste(query, "&apikey=", "7dffb3b373a9efd349a01c214e59e00b", sep = "")
   
+  print(query)
 
   # Run it!
   # XXX - setting ssl_verifypeer to FALSE is probably really bad. Whatev.
