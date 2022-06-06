@@ -53,7 +53,7 @@ getListElement <- function(listName, elementName) {
 #' @inheritParams guessGender
 #' @keywords internal
 lookupNameVectorGenderize <- function(nameVector, 
-                                      countryCode = NA, languageCode = NA, apiKey = "471680ea3c975ace17a73de1779c4c44") {
+                                      countryCode = NA, languageCode = NA, apiKey = "7dffb3b373a9efd349a01c214e59e00b") {
   # Make sure that no more than 10 names were passed
   if (length(nameVector) > 10) {
     stop("This only accepts 10 or fewer names")
@@ -70,9 +70,8 @@ lookupNameVectorGenderize <- function(nameVector,
   if (!is.na(languageCode)) {
     query <- paste(query, "&language_id=", languageCode, sep = "")
   }
-  if (!is.na(apiKey)) {
-    query <- paste(query, "&apikey=", apiKey, sep = "")
-  }
+  query <- paste(query, "&apikey=", "7dffb3b373a9efd349a01c214e59e00b", sep = "")
+  
 
   # Run it!
   # XXX - setting ssl_verifypeer to FALSE is probably really bad. Whatev.
