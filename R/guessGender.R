@@ -55,9 +55,6 @@ getListElement <- function(listName, elementName) {
 lookupNameVectorGenderize <- function(nameVector, 
                                       countryCode = NA, languageCode = NA, apiKey = "7dffb3b373a9efd349a01c214e59e00b") {
   # Make sure that no more than 10 names were passed
-  if (length(nameVector) > 10) {
-    stop("This only accepts 10 or fewer names")
-  }
   checkLanguageCountryCodes(languageCode, countryCode)
 
   # Construct the query
@@ -70,6 +67,7 @@ lookupNameVectorGenderize <- function(nameVector,
   if (!is.na(languageCode)) {
     query <- paste(query, "&language_id=", languageCode, sep = "")
   }
+  
   query <- paste(query, "&apikey=", "7dffb3b373a9efd349a01c214e59e00b", sep = "")
   
 
