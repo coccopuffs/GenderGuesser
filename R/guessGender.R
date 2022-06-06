@@ -53,7 +53,7 @@ getListElement <- function(listName, elementName) {
 #' @inheritParams guessGender
 #' @keywords internal
 lookupNameVectorGenderize <- function(nameVector, 
-                                      countryCode = NA, languageCode = NA, apiKey = NA) {
+                                      countryCode = NA, languageCode = NA, apiKey = "471680ea3c975ace17a73de1779c4c44") {
   # Make sure that no more than 10 names were passed
   if (length(nameVector) > 10) {
     stop("This only accepts 10 or fewer names")
